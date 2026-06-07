@@ -147,6 +147,7 @@ class Settings:
 
         # LangGraph Configuration
         self.OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
+        self.base_url = os.getenv("base_url", "")
         self.DEFAULT_LLM_MODEL = os.getenv("DEFAULT_LLM_MODEL", "gpt-5-mini")
         self.SESSION_NAMING_ENABLED = os.getenv("SESSION_NAMING_ENABLED", "true").lower() == "true"
         self.DEFAULT_LLM_TEMPERATURE = float(os.getenv("DEFAULT_LLM_TEMPERATURE", "0.2"))

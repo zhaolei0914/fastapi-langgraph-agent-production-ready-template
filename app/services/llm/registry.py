@@ -11,13 +11,13 @@ from langchain_openai import ChatOpenAI
 from pydantic import SecretStr
 
 from app.core.config import (
-    Environment,
     settings,
 )
 from app.core.logging import logger
 
 _TOKEN_LIMIT: Dict[str, Any] = {"max_completion_tokens": settings.MAX_TOKENS}
 _API_KEY = SecretStr(settings.OPENAI_API_KEY)
+_base_url = settings.base_url
 
 
 class LLMRegistry:
@@ -29,41 +29,30 @@ class LLMRegistry:
 
     LLMS: List[Dict[str, Any]] = [
         {
-            "name": "gpt-5-mini",
+            "name": "qwen-plus",
             "llm": ChatOpenAI(
-                model="gpt-5-mini",
+                model="qwen-plus",
                 api_key=_API_KEY,
+                base_url=_base_url,
                 model_kwargs=_TOKEN_LIMIT,
-                reasoning={"effort": "low"},
             ),
         },
         {
-            "name": "gpt-5.4",
+            "name": "qwen-max",
             "llm": ChatOpenAI(
-                model="gpt-5",
+                model="qwen-max",
                 api_key=_API_KEY,
+                base_url=_base_url,
                 model_kwargs=_TOKEN_LIMIT,
-                reasoning={"effort": "medium"},
             ),
         },
         {
-            "name": "gpt-5.4-nano",
+            "name": "qwen-turbo",
             "llm": ChatOpenAI(
-                model="gpt-5.4-nano",
+                model="qwen-turbo",
                 api_key=_API_KEY,
+                base_url=_base_url,
                 model_kwargs=_TOKEN_LIMIT,
-                reasoning={"effort": "low"},
-            ),
-        },
-        {
-            "name": "gpt-5",
-            "llm": ChatOpenAI(
-                model="gpt-5",
-                api_key=_API_KEY,
-                model_kwargs=_TOKEN_LIMIT,
-                top_p=0.95 if settings.ENVIRONMENT == Environment.PRODUCTION else 0.8,
-                presence_penalty=0.1 if settings.ENVIRONMENT == Environment.PRODUCTION else 0.0,
-                frequency_penalty=0.1 if settings.ENVIRONMENT == Environment.PRODUCTION else 0.0,
             ),
         },
     ]

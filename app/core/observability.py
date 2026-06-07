@@ -1,6 +1,7 @@
 """Observability module for the application."""
 
 from langfuse import Langfuse
+from langfuse.api.resources.commons.errors.unauthorized_error import UnauthorizedError
 from langfuse.langchain import CallbackHandler
 
 from app.core.config import settings
@@ -18,10 +19,16 @@ def langfuse_init():
         debug=settings.DEBUG,
     )
 
-    if langfuse.auth_check():
-        logger.debug("langfuse_auth_success")
-    else:
-        logger.debug("langfuse_auth_failure")
+    try:
+        if langfuse.auth_check():
+            logger.debug("langfuse_auth_success")
+        else:
+            logger.debug("langfuse_auth_failure")
+    except UnauthorizedError:
+        logger.warning(
+            "langfuse_auth_failed_credentials_invalid",
+            host=settings.LANGFUSE_HOST,
+        )
 
 
 def get_langfuse_callback_handler() -> CallbackHandler:

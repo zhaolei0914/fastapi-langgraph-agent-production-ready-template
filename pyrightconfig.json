@@ -1,0 +1,39 @@
+{
+  "include": ["app", "evals"],
+  "exclude": [
+    ".venv",
+    "**/__pycache__",
+    "**/.git",
+    "**/node_modules",
+    "alembic/versions",
+    "migrations"
+  ],
+  "ignore": [".venv"],
+  "venv": ".venv",
+  "venvPath": ".",
+  "pythonVersion": "3.13",
+  "typeCheckingMode": "standard",
+  "autoImportCompletions": true,
+  "indexing": true,
+  "packageIndexDepths": [
+    {"name": "fastapi", "depth": 2},
+    {"name": "langchain_core", "depth": 2},
+    {"name": "langchain_openai", "depth": 1},
+    {"name": "langchain_community", "depth": 1},
+    {"name": "langgraph", "depth": 1},
+    {"name": "langfuse", "depth": 1},
+    {"name": "openai", "depth": 1},
+    {"name": "pydantic", "depth": 2},
+    {"name": "sqlmodel", "depth": 1},
+    {"name": "sqlalchemy", "depth": 1},
+    {"name": "mem0ai", "depth": 1},
+    {"name": "structlog", "depth": 1},
+    {"name": "tenacity", "depth": 1},
+    {"name": "prometheus_client", "depth": 1},
+    {"name": "slowapi", "depth": 1},
+    {"name": "jose", "depth": 1},
+    {"name": "httpx", "depth": 1},
+    {"name": "pytest", "depth": 1}
+  ],
+  "stubPath": "typings"
+}

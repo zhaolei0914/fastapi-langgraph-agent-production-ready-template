@@ -69,13 +69,13 @@ migrate-history:
 # Evaluation
 # ---------------------------------------------------------------------------
 eval:
-	@$(call run_with_env,python -m evals.main --interactive)
+	@$(call run_with_env,uv run python -m evals.main --interactive)
 
 eval-quick:
-	@$(call run_with_env,python -m evals.main --quick)
+	@$(call run_with_env,uv run python -m evals.main --quick)
 
 eval-no-report:
-	@$(call run_with_env,python -m evals.main --no-report)
+	@$(call run_with_env,uv run python -m evals.main --no-report)
 
 # ---------------------------------------------------------------------------
 # Code quality

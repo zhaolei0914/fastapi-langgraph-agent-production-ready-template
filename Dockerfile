@@ -1,4 +1,4 @@
-FROM python:3.13.2-slim
+FROM python:3.13.2
 
 # Set working directory
 WORKDIR /app
@@ -14,17 +14,21 @@ ENV APP_ENV=${APP_ENV} \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
     PIP_DEFAULT_TIMEOUT=100
 
+# Use Aliyun mirrors for apt and pip/uv
+RUN sed -i 's|deb.debian.org|mirrors.aliyun.com|g' /etc/apt/sources.list.d/debian.sources \
+    && sed -i 's|security.debian.org|mirrors.aliyun.com|g' /etc/apt/sources.list.d/debian.sources
+
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpq-dev \
-    && pip install --upgrade pip \
-    && pip install uv \
+    && pip install --upgrade pip -i https://mirrors.aliyun.com/pypi/simple/ \
+    && pip install uv -i https://mirrors.aliyun.com/pypi/simple/ \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy pyproject.toml first to leverage Docker cache
-COPY pyproject.toml .
-RUN uv venv && . .venv/bin/activate && uv pip install -e .
+# Copy dependency files first to leverage Docker cache
+COPY pyproject.toml uv.lock ./
+RUN uv sync --no-dev
 
 # Copy the application
 COPY . .
